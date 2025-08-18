@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -184,6 +183,8 @@ public class MemberController {
 		}
 		return mv;
 	}
+	
+	
 	
 	// 3. Session에 저장할 때 @SessionAttributes 이용
 	//		Model에 attribute가 추가될 때 자동으로 key값을 찾아 세션에 등록
