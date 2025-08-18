@@ -190,13 +190,17 @@ public class MemberController {
 	//		Model에 attribute가 추가될 때 자동으로 key값을 찾아 세션에 등록
 	// 암호화 후 로그인 + @SessionAttributes
 	@PostMapping("signIn")
-	public String login(Member m, Model model) {
+	public String login(Member m, Model model, @RequestParam("beforeURL") String beforeURL) {
 		Member loginUser = mService.login(m);
 		
 		if(loginUser != null && bcrypt.matches(m.getPwd(), loginUser.getPwd())) { // 암호화랑 평문화 비교, bcrypt.matches(비교대상(평문), 비교조건(암호))
 			model.addAttribute("loginUser", loginUser);
 			//return "views/home"; // == forward -> URL이 유지되기 때문
-			return "redirect:/home"; // == sendRedirect
+			if(loginUser.getIsAdmin().equals(loginUser)) {
+				return "redirect:" + beforeURL; // == sendRedirect
+			}else {
+				return "redirect:/admin/home";
+			}
 		} else {
 			throw new MemberException("로그인을 실패하였습니다.");
 		}
