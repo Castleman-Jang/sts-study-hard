@@ -46,10 +46,31 @@
 		</layout>
 	</appender>
 	
-	<logger name="kh.springboot.member.controller.MemberController" level="warn" additivity="false"> <!-- 이거 등록할거임 . warn 부터 // additivity="false"넣으면 루트까지 안 가고 한 번만 나옴-->
+	<appender name="myFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- 파일경로 설정 -->
+		<file>d:/logs/member/login.log</file>
+		
+		<!-- 출력패턴 설정 -->
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yy-MM-dd HH:mm:ss} [%p] %c{1}.%M>%L - %m%n</pattern>
+		</encoder>
+		
+		<!-- Rolling 중에서도 선택할 정책 : TimeBased는 시간에 따라 = Daily -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>D:/logs/member/login.log.%d{yyyyMMdd}</fileNamePattern>
+		</rollingPolicy>
+		
+		
+		
+	</appender>
+	
+	<logger name="kh.springboot.member.controller.MemberController" level="debug" additivity="false"> <!-- 이거 등록할거임 . warn 부터 // additivity="false"넣으면 루트까지 안 가고 한 번만 나옴-->
 		<appender-ref ref="myConsoleAppender"/> <!-- myConsoleAppender 이름을 가지고 있는 애를 참조할거임  -->
 	</logger>
 	
+	<logger name="kh.springboot.common.interceptor.LogInterceptor" level="debug" additivity="false">
+		<appender-ref ref="myFileAppender"/>
+	</logger>
 	
 	
 	

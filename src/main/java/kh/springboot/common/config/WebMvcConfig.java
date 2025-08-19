@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import kh.springboot.common.interceptor.CheckAdminInterceptor;
 import kh.springboot.common.interceptor.CheckLoginInterceptor;
+import kh.springboot.common.interceptor.LogInterceptor;
 import kh.springboot.common.interceptor.TestInterceptor;
 
 @Configuration
@@ -59,7 +60,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		  		
 		  		
 		 */
-		
+
+		registry.addInterceptor(new LogInterceptor())
+				.addPathPatterns("/member/signIn");
 	}
 	
 }

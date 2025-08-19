@@ -215,7 +215,8 @@ public class MemberController {
 		if(loginUser != null && bcrypt.matches(m.getPwd(), loginUser.getPwd())) { // 암호화랑 평문화 비교, bcrypt.matches(비교대상(평문), 비교조건(암호))
 			model.addAttribute("loginUser", loginUser);
 			//return "views/home"; // == forward -> URL이 유지되기 때문
-			if(loginUser.getIsAdmin().equals(loginUser)) {
+			if(loginUser.getIsAdmin().equals("N")) {
+				log.debug(m.getId() + " , " + loginUser.getName());
 				return "redirect:" + beforeURL; // == sendRedirect
 			}else {
 				return "redirect:/admin/home";
