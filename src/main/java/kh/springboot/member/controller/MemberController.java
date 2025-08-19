@@ -26,6 +26,7 @@ import kh.springboot.member.model.exception.MemberException;
 import kh.springboot.member.model.service.MemberService;
 import kh.springboot.member.model.vo.Member;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Controller // Controller 역할을 하는 bean 생성
@@ -34,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/member/") // MemberController로 오면 URL을 /member/로 시작 (공용 URL)
 //@RequestMapping("/member/") + @XXXMapping("signIn"), @RequestMapping("/member/" + @XXXMapping("signIn"), @RequestMapping("/member") + @XXXMapping("signIn")
 // 셋다 상관없음
+@Slf4j //  private Logger log = LoggerFactory.getLogger(MemberController.class);이거 대신해주는 어노테이션
 public class MemberController {
 	
 	// 의존성 주입 중 필드 주입 방법 : import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,8 @@ public class MemberController {
 	private final BCryptPasswordEncoder bcrypt;
 	
 	private final JavaMailSender mailSender;
+	
+//	private Logger log = LoggerFactory.getLogger(MemberController.class);
 	
 	// 같은 url을 처리하는 메소드가 2개 이상이면 원래 error가 나야함
 	// 여기서는 보내는 방식이 달라서 상관없음
@@ -116,6 +120,21 @@ public class MemberController {
 	
 	@GetMapping("enroll")
 	public String enroll() {
+		log.info("회원가입페이지");
+		log.debug("회원가입페이지");
+		log.error("회원가입페이지");
+		log.warn("회원가입페이지");
+		log.trace("회원가입페이지");
+		
+		// log4j의 로그레벨 파라미터 : DEBUG < INFO < WARN < ERROR < FATAL
+		// 설정한 level 속성 이상만이 화면에 보임
+		// FATAL : 아주 심각한 에러
+		// ERROR : 어떤 요청 처리 중 문제 발생
+		// WARN  : 프로그램 실행에는 문제 없지만, 향우 시스템 에러의 원인이 될 수 있는 경고성 메세지
+		// INFO  : 상태 변경과 같은 정보성 메세지
+		// DEBUG : 개발 시 디버그 용도로 사용하는 메세지
+		// TRACE : 디버그 레벨이 너무 광범위한 것을 해결하기 위해 좀 더 상세한 이벤트(EX. 경로추적)를 나타냄
+		
 		return "enroll";
 	}
 	

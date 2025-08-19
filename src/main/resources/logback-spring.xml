@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- defaults.xml : 변환 규칙, 패턴 속성 및 일반적인 로거 구성 제공 -->
+	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+	<!-- console-appender.xml : 콘솔 로그 패턴을 사용하여 consoleAppender 추가 -->
+	<include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+	
+	<!-- root = 모든 로거(자식로그)들이 거쳐야하는 부모로그를 루트라고 한다는디 -->
+	<!-- 모든 자식 logger들의 출력이 rootlogger를 통해 이루어짐 -->
+	<root level="INFO">
+		<appender-ref ref="CONSOLE"/>
+	</root>
+	
+	
+	<!--
+		appender : 전달된 로그를 어디에 출력할지 결정하는애
+			ConsoleAppender 	: 로그를 콘솔에 출력하기 위한 appender
+			JDBCAppender 		: 로그를 DB에 출력하기 위한 appender
+			FileAppender		: 로그를 파일에 출력하기 위한 appender, 
+								  하나의 지정파일에 로그를 계속 남기면 크기가 지나치게 커지면서 지속적인 로그 관리가 어려워진다는 단점 발생
+			RollingFileAppender	: FileAppender를 보완한 개념, 일정 조건 후 기존 파일을 백업 파일로 바꾸고 다시 처음부터 시작
+		Layout : 로그를 어떤 형식으로 출력할지 결정
+			DateLayout, HTMLLayout, PatternLayout(가장 디버깅에 적합함), SimpleLayout, XMLLayout
+			%p		debug, info, warn, error, fatal 등의 priority출력
+			%m		로그 내용 출력
+			%d		로그 이벤트가 발생한 시간 출력(프로그램 실행 속도가 느려질 수 있음)
+					포맷 형식 : %d{HH:mm:ss, SSS} 같은 형태로 사용 (SimpleDateFormat에 따른 포맷팅)
+			%t		로그 이벤트가 발생된 스레드 이름 출력
+			%%		%표시
+			%n		개행문자
+			%c{n}	package출력
+					n(숫자) 만큼의 package를 하단부터 역으로 출력
+					a.b.c처럼 되어있을 때 %c{2}는 b.c로 나옴
+			%C{n}	클래스명 출력
+					n에 대한 내용은 위와 같음
+					-> 내용은 이렇지만 %c나 %C에 대한 사이는 크게 없음
+			%F		로깅이 발생한 프로그램 파일명 출력
+			%l		로깅이 발생한 caller의 정보 출력
+			%L		로깅이 발생한 caller의 라인수 출력
+			%M		로깅이 발생한 method이름 출력
+			%r		애플리케이션 시작 이후 로깅이 발생한 시점의 시간 (milliseconds) 출력
+	-->
+	<appender name="myConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss:SSS} %-5p %c.%M - %m%n</pattern>
+		</layout>
+	</appender>
+	
+	<logger name="kh.springboot.member.controller.MemberController" level="warn" additivity="false"> <!-- 이거 등록할거임 . warn 부터 // additivity="false"넣으면 루트까지 안 가고 한 번만 나옴-->
+		<appender-ref ref="myConsoleAppender"/> <!-- myConsoleAppender 이름을 가지고 있는 애를 참조할거임  -->
+	</logger>
+	
+	
+	
+	
+</configuration>
