@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpSession;
 import kh.springboot.member.model.exception.MemberException;
 import kh.springboot.member.model.service.MemberService;
 import kh.springboot.member.model.vo.Member;
+import kh.springboot.member.model.vo.TodoList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 //@RequestMapping("/member/") + @XXXMapping("signIn"), @RequestMapping("/member/" + @XXXMapping("signIn"), @RequestMapping("/member") + @XXXMapping("signIn")
 // 셋다 상관없음
 @Slf4j //  private Logger log = LoggerFactory.getLogger(MemberController.class);이거 대신해주는 어노테이션
-public class MemberController {
+public class MemberController<todoList> {
 	
 	// 의존성 주입 중 필드 주입 방법 : import org.springframework.beans.factory.annotation.Autowired;
 	//@Autowired 
@@ -196,6 +197,13 @@ public class MemberController {
 		if(loginUser != null) {
 			String id = loginUser.getId();
 			ArrayList<HashMap<String, Object>> list = mService.selectMyList(id);
+			
+			
+			//todolist 가져오기 내꺼 가져오기
+			//1. db에서 내 todolist 가져오기, 2. 가져온 데이터를 view에 전달 3. 전달받은 데이터를 view에 출력
+			ArrayList<TodoList> todoList = mService.selectTodoList(id);
+			
+			mv.addObject("todoList", todoList);
 			
 			mv.addObject("list", list);
 			mv.setViewName("myInfo");
@@ -401,6 +409,20 @@ public class MemberController {
 			throw new MemberException("비밀번호 수정을 실패하였습니다.");
 		}
 	}
+	
+	@GetMapping("linsert")
+	@ResponseBody
+	public int insertTodoList(@ModelAttribute TodoList todo) {
+		
+		return mService.insertTodo(todo);
+	}
+	
+	@GetMapping("lupdate")
+	@ResponseBody
+	public int updateTodo(@ModelAttribute TodoList todo) {
+		return mService.updateTodo(todo);
+	}
+
 }
 
 

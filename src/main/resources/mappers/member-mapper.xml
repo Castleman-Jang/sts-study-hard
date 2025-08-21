@@ -92,5 +92,39 @@
 			id = #{id}
 		</if>
 	</select>
-
+	<select id="selectTodoList" resultType="TodoList">
+		select *
+		from todo_List
+		where writer = #{id}
+		order by todo_num
+	</select>
+	
+	<insert id="insertTodoList">
+		insert
+		into todo_List values
+		(seq_lid.nextval, #{todo} , #{writer} , default , default)
+	</insert>
+	
+<!-- 	<update id="updateTodo"> -->
+<!-- 		update TODO_LIST -->
+<!-- 		set status = #{status} -->
+<!-- 		where todo_num = #{todoNum} -->
+<!-- 	</update> -->
+	<update id="updateTodo">
+	   update todo_list
+	   <if test="status != null">
+	      set status = #{status}
+	   </if>
+	   <if test="status == null">
+	      set important = #{important}
+	   </if>
+	   where todo_num = #{todoNum}
+	</update>   
+	
+	<update id="updateImportant">
+		update TODO_LIST
+		set important = #{important}
+		where todo_num = #{todoNum}
+	</update>
+	
 </mapper>

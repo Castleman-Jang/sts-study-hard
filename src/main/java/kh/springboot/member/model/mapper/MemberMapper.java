@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 
 import kh.springboot.member.model.vo.Member;
+import kh.springboot.member.model.vo.TodoList;
 
 @Mapper // 인터페이스 구현을 xml로 하겠다는 의미
 // 일반 클래스에 Mapper를 넣으면 작동하지 않음
@@ -35,5 +36,14 @@ public interface MemberMapper {
 //	Member findPw(Member m);
 
 	Member findInfo(Member m);
+
+	ArrayList<TodoList> selectTodoList(String id);
+
+	int insertTodoList(TodoList todo);
+
+	int updateTodo(TodoList todo);
+
+	int updateImportant(TodoList todo);
+
 	
 }

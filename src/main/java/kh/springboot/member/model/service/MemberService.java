@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kh.springboot.member.model.mapper.MemberMapper;
 import kh.springboot.member.model.vo.Member;
+import kh.springboot.member.model.vo.TodoList;
 import lombok.RequiredArgsConstructor;
 
 @Service // Service 역할의 bean 생성
@@ -62,5 +63,27 @@ public class MemberService {
 	public Member findInfo(Member m) {
 		return mapper.findInfo(m);
 	}
+
+	
+
+	public int insertTodo(TodoList todo) {
+		return mapper.insertTodoList(todo);
+	}
+
+	public ArrayList<TodoList> selectTodoList(String id) {
+		// TODO Auto-generated method stub
+		return mapper.selectTodoList(id);
+	}
+
+	public int updateTodo(TodoList todo) {
+		return mapper.updateTodo(todo);
+	}
+
+	public int updateImportant(TodoList todo) {
+		// TODO Auto-generated method stub
+		return mapper.updateImportant(todo);
+	}
+
+
 	
 }
