@@ -100,6 +100,9 @@
 	</select>
 	
 	<insert id="insertTodoList">
+		<selectKey keyProperty="todoNum" order="BEFORE" resultType="_int">
+			select seq_lid.nextval from dual
+		</selectKey>
 		insert
 		into todo_List values
 		(seq_lid.nextval, #{todo} , #{writer} , default , default)
@@ -126,5 +129,11 @@
 		set important = #{important}
 		where todo_num = #{todoNum}
 	</update>
+	
+	<delete id="deleteTodo">
+		delete from TODO_LIST
+		where todo_num = #{todoNum}
+		
+	</delete>
 	
 </mapper>

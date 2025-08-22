@@ -137,7 +137,8 @@
 			document.getElementById('replySubmit').addEventListener('click', () => {
 				const content = document.getElementById('replyContent');
 				$.ajax({
-					url: '/board/rinsert',
+					url: '/board/reply',
+					type: 'post',
 					data: {
 							replyContent:document.getElementById('replyContent').value,
 							refBoardId:/*[[${b.boardId}]]*/1,
@@ -260,7 +261,8 @@
 					} else if(targetSVG.className.baseVal.includes('trash')) {
 						if(confirm('정말 삭제하시겠습니까?')){
 							$.ajax({
-								url: '/board/rdelete',
+								url: '/board/reply',
+								type: 'delete',
 								data: {rId:replyId},
 								success: data => {
 									if(data == 1){
@@ -276,7 +278,8 @@
 					} else if(targetSVG.className.baseVal.includes('check')){
 						// 수정 완료 : 연필/삭제 view로 전환
 						$.ajax({
-							url: '/board/rupdate',
+							url: '/board/reply',
+							type: 'put',
 							data: {replyId:replyId, replyContent:contentTd.children[0].value},
 							success: data => {
 								//console.log(data);

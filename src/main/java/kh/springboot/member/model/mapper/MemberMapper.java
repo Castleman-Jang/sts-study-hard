@@ -45,5 +45,9 @@ public interface MemberMapper {
 
 	int updateImportant(TodoList todo);
 
+	int deleteTodo(int todoNum);
+
+	
+
 	
 }

@@ -150,40 +150,42 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping(value="top", produces="application/json; charset=UTF-8") // produces = response의 contentType 제어 => json만 가능, gson은 불가능
-	@ResponseBody
-	public String selectTop(HttpServletResponse response) {
-		ArrayList<Board> list = bService.selectTop();
-		
-		// json버전
-		// Board => JSONObject / ArrayList => JSONArray
-		JSONArray array = new JSONArray();
-		for(Board b : list) {
-			JSONObject json = new JSONObject();
-			json.put("boardId", b.getBoardId());
-			json.put("boardTitle", b.getBoardTitle());
-			json.put("nickName", b.getBoardWriter());
-			json.put("boardModifyDate", b.getBoardModifyDate()); // MyBatis때와는 다르게 json을 지원하는 라이브러리가 달라서 Date를 굳이 String으로 안 바꿔도 됨
-			json.put("boardCount", b.getBoardCount());
-			
-			array.put(json); // 지원하는 라이브러리 형태에 따라 메소드도 달라짐 MyBatis 때는 array.add(); SpringBoot에서 사용하는 라이브러리는 array.put();
-		}
-//		response.setContentType("application/json; charset=UTF-8");
-		return array.toString();
-		
-		// gson 버전
-//		response.setContentType("application/json; charset=UTF-8");
-//		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-//		return gson.toJson(list); // 프로젝트에는 이 버전으로 사용 예정
-		
-//		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-//		response.setContentType("application/json; charset=UTF-8");
-//		try {
-//			gson.toJson(list, response.getWriter());
-//		} catch (JsonIOException | IOException e) {
-//			e.printStackTrace();
+	
+	// 아래 ajaxcontroller로 이동
+//	@GetMapping(value="top", produces="application/json; charset=UTF-8") // produces = response의 contentType 제어 => json만 가능, gson은 불가능 
+//	@ResponseBody
+//	public String selectTop(HttpServletResponse response) {
+//		ArrayList<Board> list = bService.selectTop();
+//		
+//		// json버전
+//		// Board => JSONObject / ArrayList => JSONArray
+//		JSONArray array = new JSONArray();
+//		for(Board b : list) {
+//			JSONObject json = new JSONObject();
+//			json.put("boardId", b.getBoardId());
+//			json.put("boardTitle", b.getBoardTitle());
+//			json.put("nickName", b.getBoardWriter());
+//			json.put("boardModifyDate", b.getBoardModifyDate()); // MyBatis때와는 다르게 json을 지원하는 라이브러리가 달라서 Date를 굳이 String으로 안 바꿔도 됨
+//			json.put("boardCount", b.getBoardCount());
+//			
+//			array.put(json); // 지원하는 라이브러리 형태에 따라 메소드도 달라짐 MyBatis 때는 array.add(); SpringBoot에서 사용하는 라이브러리는 array.put();
 //		}
-	}
+////		response.setContentType("application/json; charset=UTF-8");
+//		return array.toString();
+//		
+//		// gson 버전
+////		response.setContentType("application/json; charset=UTF-8");
+////		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+////		return gson.toJson(list); // 프로젝트에는 이 버전으로 사용 예정
+//		
+////		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+////		response.setContentType("application/json; charset=UTF-8");
+////		try {
+////			gson.toJson(list, response.getWriter());
+////		} catch (JsonIOException | IOException e) {
+////			e.printStackTrace();
+////		}
+//	}
 	
 //	@GetMapping(value="rinsert")
 //	@ResponseBody
@@ -210,43 +212,43 @@ public class BoardController {
 	
 	// jackson 버전 : springBoot에서 자동으로 라이브러리 제공
 	// GetMapping에 produces를 넣어도 되고 HttpServletResponse 추가하여 setContentType으로 해도 됨
-	@GetMapping(value="rinsert", produces="application/json; charset=UTF-8")
-	@ResponseBody
-	public String insertReply(@ModelAttribute Reply r/*, HttpServletResponse response*/) {
-		int result = bService.insertReply(r);
-		ArrayList<Reply> list = bService.selectReplyList(r.getRefBoardId());
-		
-		ObjectMapper om = new ObjectMapper();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		om.setDateFormat(sdf);
-		String str = null;
-		try {
-			str = om.writeValueAsString(list);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		
-		//response.setContentType("application/json; charset=UTF-8");
-		return str;
-	}
+//	@GetMapping(value="rinsert", produces="application/json; charset=UTF-8")
+//	@ResponseBody
+//	public String insertReply(@ModelAttribute Reply r/*, HttpServletResponse response*/) {
+//		int result = bService.insertReply(r);
+//		ArrayList<Reply> list = bService.selectReplyList(r.getRefBoardId());
+//		
+//		ObjectMapper om = new ObjectMapper();
+//		
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		om.setDateFormat(sdf);
+//		String str = null;
+//		try {
+//			str = om.writeValueAsString(list);
+//		} catch (JsonProcessingException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		//response.setContentType("application/json; charset=UTF-8");
+//		return str;
+//	}
 	
 	// 댓글 삭제
-	@GetMapping("rdelete")
-	@ResponseBody
-	public int deleteReply(@RequestParam("rId") int rId) {
-		return bService.deleteReply(rId);
-	}
+//	@GetMapping("rdelete")
+//	@ResponseBody
+//	public int deleteReply(@RequestParam("rId") int rId) {
+//		return bService.deleteReply(rId);
+//	}
 	
 	// 댓글 수정
-	@GetMapping("rupdate")
-	@ResponseBody
-	public int updateReply(@ModelAttribute Reply r) {
-		// Reply r = new Reply();
-		// r.setReplyId(replyId);
-		// r.setReplyContent(replyContent);
-		return bService.updateReply(r); 
-	}
+//	@GetMapping("rupdate")
+//	@ResponseBody
+//	public int updateReply(@ModelAttribute Reply r) {
+//		// Reply r = new Reply();
+//		// r.setReplyId(replyId);
+//		// r.setReplyContent(replyContent);
+//		return bService.updateReply(r); 
+//	}
 	
 	// 검색 관련
 //	@GetMapping("search")

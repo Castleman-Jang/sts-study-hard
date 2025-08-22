@@ -84,6 +84,11 @@ public class MemberService {
 		return mapper.updateImportant(todo);
 	}
 
+	public int deleteTodo(int todoNum) {
+		// TODO Auto-generated method stub
+		return mapper.deleteTodo(todoNum);
+	}
+
 
 	
 }

@@ -52,7 +52,7 @@ public class MemberController<todoList> {
 	
 	private final BCryptPasswordEncoder bcrypt;
 	
-	private final JavaMailSender mailSender;
+//	private final JavaMailSender mailSender;   --이거도 ajaxcontroller로 옮겼음, 이메일확인을 옮겼으니까 
 	
 //	private Logger log = LoggerFactory.getLogger(MemberController.class);
 	
@@ -224,7 +224,7 @@ public class MemberController<todoList> {
 			model.addAttribute("loginUser", loginUser);
 			//return "views/home"; // == forward -> URL이 유지되기 때문
 			if(loginUser.getIsAdmin().equals("N")) {
-				log.debug(m.getId() + " , " + loginUser.getName());
+//				log.debug(m.getId() + " , " + loginUser.getName());
 				return "redirect:" + beforeURL; // == sendRedirect
 			}else {
 				return "redirect:/admin/home";
@@ -311,52 +311,56 @@ public class MemberController<todoList> {
 //		return result == 0 ? "usable" : "unusable";
 //	}
 	
-	@GetMapping("checkValue")
-	@ResponseBody
-	public int checkValue(@RequestParam("value") String value, @RequestParam("column") String column) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("col", column);
-		map.put("val", value);
-		int result = mService.checkValue(map);
-		return result;
-	}
 	
-	@GetMapping("echeck")
-	@ResponseBody
-	public String checkEmail(@RequestParam("email") String email) {
-		// MimeMessage = html형식도 메일로 보낼 수 있음
-		// SimpleMessage = Text형식만 메일로 보낼 수 있음
-		MimeMessage mimeMessage = mailSender.createMimeMessage();
-		
-		// 수신자, 제목, 본문 설정
-		String subject = "[SpringBoot] 이메일 확인";
-		String body = "<h1 align='center'>SpringBoot 이메일 확인</h1><br>";
-		body += "<div style='border: 5px solid yellowgreen; text-align: center; font-size: 15px;'>";
-		body += "본 메일은 이메일을 확인하기 위해 발송되었습니다.<br>";
-		body += "아래 숫자를 인증번호 확인란에 작셩하여 확인해주시기 바랍니다.<br><br>";
-		
-		// 인증번호 숫자 5개
-		String random = "";
-		for(int i = 0; i < 5; i++) {
-			random += (int)(Math.random() * 10); 
-		}
-		System.out.println(random);
-		
-		body += "<span style='font-size: 30px; text-decoration: underline;'><b>" + random + "</b></span><br></div>";
-		
-		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-		try {
-			mimeMessageHelper.setTo(email);
-			mimeMessageHelper.setSubject(subject);
-			mimeMessageHelper.setText(body, true);
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
-		
-		mailSender.send(mimeMessage); // Email 전송
-		
-		return random;
-	}
+//	//아이디 중복 확인 ------ajaxcontroller에 옮겼음
+//	@GetMapping("checkValue")
+//	@ResponseBody
+//	public int checkValue(@RequestParam("value") String value, @RequestParam("column") String column) {
+//		HashMap<String, String> map = new HashMap<String, String>();
+//		map.put("col", column);
+//		map.put("val", value);
+//		int result = mService.checkValue(map);
+//		return result;
+//	}
+	
+	
+	//이메일 확인 -ajaxcontroller로 옮김
+//	@GetMapping("echeck")
+//	@ResponseBody
+//	public String checkEmail(@RequestParam("email") String email) {
+//		// MimeMessage = html형식도 메일로 보낼 수 있음
+//		// SimpleMessage = Text형식만 메일로 보낼 수 있음
+//		MimeMessage mimeMessage = mailSender.createMimeMessage();
+//		
+//		// 수신자, 제목, 본문 설정
+//		String subject = "[SpringBoot] 이메일 확인";
+//		String body = "<h1 align='center'>SpringBoot 이메일 확인</h1><br>";
+//		body += "<div style='border: 5px solid yellowgreen; text-align: center; font-size: 15px;'>";
+//		body += "본 메일은 이메일을 확인하기 위해 발송되었습니다.<br>";
+//		body += "아래 숫자를 인증번호 확인란에 작셩하여 확인해주시기 바랍니다.<br><br>";
+//		
+//		// 인증번호 숫자 5개
+//		String random = "";
+//		for(int i = 0; i < 5; i++) {
+//			random += (int)(Math.random() * 10); 
+//		}
+//		System.out.println(random);
+//		
+//		body += "<span style='font-size: 30px; text-decoration: underline;'><b>" + random + "</b></span><br></div>";
+//		
+//		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+//		try {
+//			mimeMessageHelper.setTo(email);
+//			mimeMessageHelper.setSubject(subject);
+//			mimeMessageHelper.setText(body, true);
+//		} catch (MessagingException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		mailSender.send(mimeMessage); // Email 전송
+//		
+//		return random;
+//	}
 	
 	@GetMapping("findIDPW")
 	public String findIDPW() {
@@ -410,18 +414,24 @@ public class MemberController<todoList> {
 		}
 	}
 	
-	@GetMapping("linsert")
-	@ResponseBody
-	public int insertTodoList(@ModelAttribute TodoList todo) {
-		
-		return mService.insertTodo(todo);
-	}
+//	@GetMapping("linsert")
+//	@ResponseBody
+//	public int insertTodoList(@ModelAttribute TodoList todo) {
+//		int result = mService.insertTodo(todo);
+//		return result > 0 ? todo.getTodoNum() : result ;
+//	}
 	
-	@GetMapping("lupdate")
-	@ResponseBody
-	public int updateTodo(@ModelAttribute TodoList todo) {
-		return mService.updateTodo(todo);
-	}
+//	@GetMapping("lupdate")
+//	@ResponseBody
+//	public int updateTodo(@ModelAttribute TodoList todo) {
+//		return mService.updateTodo(todo);
+//	}
+	
+//	@GetMapping("ldelete")
+//	@ResponseBody
+//	public int deleteTodo(@RequestParam("num") int todoNum) {
+//		return mService.deleteTodo(todoNum);
+//	}
 
 }
 
