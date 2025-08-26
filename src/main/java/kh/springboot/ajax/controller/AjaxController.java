@@ -1,13 +1,17 @@
 package kh.springboot.ajax.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,8 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,12 +33,14 @@ import kh.springboot.board.model.service.BoardService;
 import kh.springboot.board.model.vo.Board;
 import kh.springboot.board.model.vo.Reply;
 import kh.springboot.member.model.service.MemberService;
+import kh.springboot.member.model.vo.Member;
 import kh.springboot.member.model.vo.TodoList;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping({"/member", "/board"})
+@SessionAttributes("loginUser")
 public class AjaxController {
 	/*
 		비동기 통신 ajax
@@ -188,6 +195,43 @@ public class AjaxController {
 		// r.setReplyId(replyId);
 		// r.setReplyContent(replyContent);
 		return bService.updateReply(r); 
+	}
+	
+	@PutMapping("profile")
+	public int updateProfile(@RequestParam(value="profile", required=false) MultipartFile profile, Model model) {
+//		System.out.println(profile);
+		Member m = (Member)model.getAttribute("loginUser");
+		
+		String savePath = "C:\\profiles";
+		File folder = new File(savePath);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		if(m.getProfile() != null) {
+			File f = new File(savePath + "\\" + m.getProfile());
+			f.delete();
+		}
+		String renameFileName = null;
+		if(profile != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyMMddHHmmssSSS");
+			int ranNum = (int)(Math.random()*100000);
+			String originFileName = profile.getOriginalFilename();
+			renameFileName = sdf.format(new Date())+ ranNum + originFileName.substring(originFileName.lastIndexOf("."));
+			
+			try {
+				profile.transferTo(new File(folder + "\\" + renameFileName));
+			}catch(IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		m.setProfile(renameFileName);
+		int result = mService.updateProfile(m);
+		if(result > 0) {
+			model.addAttribute("loginUser", m);
+		}
+		return result;
 	}
 	
 }

@@ -89,6 +89,11 @@ public class MemberService {
 		return mapper.deleteTodo(todoNum);
 	}
 
+	public int updateProfile(Member m) {
+		// TODO Auto-generated method stub
+		return mapper.updateProfile(m);
+	}
+
 
 	
 }

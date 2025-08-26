@@ -47,6 +47,8 @@ public interface MemberMapper {
 
 	int deleteTodo(int todoNum);
 
+	int updateProfile(Member m);
+
 	
 
 	
