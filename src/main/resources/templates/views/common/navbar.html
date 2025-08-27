@@ -60,18 +60,53 @@
 			}, 1000*60*60);
 		});
 		
+		let url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst'; 
+		let queryParams = '?' + encodeURIComponent('serviceKey') + '='+'73a2ba0f91e7b3fddee22c34758b6dbde03fb7e0cce96e56523df148de5fe757'; 
+		queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); 
+		queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('1000'); 
+		queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON'); 
+		
+		const now = new Date();
+		const day = now.getFullYear().toString() + (now.getMonth() + 1 < 10 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1) + (now.getDate() < 10 ? '0' + now.getDate() : now.getDate());
+		queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent(day);
+		
+		let time = now.getHours().toString() + now.getMinutes();
+		const baseTime = [200, 500, 800, 1100, 1400, 1700, 2000, 2300];
+		
+		let index = -1;
+		for(let i = 0; i<baseTime.length; i++){
+			if(parseInt(time) <= baseTime[i]){
+				index = i - 1;
+				if(i == 0){
+					index =i;
+				}
+				time = ("0" + baseTime[index]).substring(("0" + baseTime[index]).length - 4 );
+				break;
+			}
+		}
+		if(index == -1){
+			time = "2300";
+		}
+		
+		queryParams += '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent('0500'); 
+		queryParams += '&' + encodeURIComponent('nx') + '=' + encodeURIComponent('55'); 
+		queryParams += '&' + encodeURIComponent('ny') + '=' + encodeURIComponent('127');
+		
+		const resultSpan = document.querySelector('span');
+		let todayInfo;
+		
 		const getWeather = () => {
 			// /member/weather 요청보내볼 주소
-			fetch('/member/weather')
+			fetch(url+queryParams)
 			.then(response => response.json())
 			.then(data => {
 // 				console.log(data);
 // 				console.log(data.response.body.items.item);
-				const resultSpan = document.querySelector('span');
+				
 				const objArr = data.response.body.items.item;
 				const nearByNow = []; // 현재 시간과 가장 가까운 데이터만 저장할 용도로 만들어둠
-				const now = new Date();
-				const day = now.getFullYear().toString() + (now.getMonth() + 1 < 10 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1) + (now.getDate() < 10 ? '0' + now.getDate() : now.getDate());
+// 				const now = new Date();
+// 				const day = now.getFullYear().toString() + (now.getMonth() + 1 < 10 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1) + (now.getDate() < 10 ? '0' + now.getDate() : now.getDate());
 				
 				for(const obj of objArr){
 					if(obj.fcstDate == day && obj.fcstTime.substring(0,2) == now.getHours()){
@@ -93,25 +128,95 @@
 					else if(obj.category == 'PTY') pty = obj.fcstValue;		// 강수 형태
 				}
 				
-				resultSpan.innerHTML = '서울 ';
+				todayInfo = '서울 ';
 				if(pty == 1 || pty == 4){ // 1 비 , 4 소나기
-					resultSpan.innerHTML += rainIcon;
+					todayInfo += rainIcon;
 				}else if(pty == 2){ // 2 눈/비
-					resultSpan.innerHTML += (rainIcon + snowIcon);
+					todayInfo += (rainIcon + snowIcon);
 				}else if(pty ==3){
-					resultSpan.innerHTML += snowIcon;
+					todayInfo += snowIcon;
 				}else {
 					if(sky == 1){
-						resultSpan.innerHTML += sunIcon;
+						todayInfo += sunIcon;
 					}else{
-						resultSpan.innerHTML += cloudIcon;
+						todayInfo += cloudIcon;
 					}
 				}
-				resultSpan.innerHTML += ' ' + tmp + "℃ | 습도 " + reh + '% | 강수확률 ' + pop + '%';
-				$(resultSpan).slideUp(1200);
-				$(resultSpan).slideDown(1200);
+				todayInfo += ' ' + tmp + "℃ | 습도 " + reh + '% | 강수확률 ' + pop + '%';
+				
+				let airUrl = 'http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty'; /*URL*/
+				let airQueryParams = '?' + encodeURIComponent('serviceKey') + '='+'73a2ba0f91e7b3fddee22c34758b6dbde03fb7e0cce96e56523df148de5fe757'; 
+				airQueryParams += '&' + encodeURIComponent('returnType') + '=' + encodeURIComponent('JSON'); /**/
+				airQueryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('100'); /**/
+				airQueryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+				airQueryParams += '&' + encodeURIComponent('sidoName') + '=' + encodeURIComponent('서울'); /**/
+				airQueryParams += '&' + encodeURIComponent('ver') + '=' + encodeURIComponent('1.0'); /**/
+				
+				fetch(airUrl+airQueryParams)
+				.then(res => res.json())
+				.then(data=>{
+// 					console.log(data);
+					const objArr = data.response.body.items;
+					let myObj;
+					for(const obj of objArr){
+						if(obj.stationName == '중구'){
+							myObj = obj;
+							break;
+						}
+					}
+					
+					let pm10 = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg>';
+					let pm25 = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg>';
+					let state10;
+					let state25;
+					
+					switch(myObj.pm10Grade){
+					case '1':
+						state10 = '좋음';
+						pm10 = pm10.replace('currentColor', 'green');
+						break;
+					case '2':
+						state10 = '보통';
+						pm10 = pm10.replace('currentColor', 'yellow');
+						break;
+					case '3':
+						state10 = '나쁨';
+						pm10 = pm10.replace('currentColor', 'red');
+						break;
+					case '4':
+						state10 ='매우나쁨';
+						pm10 = pm10.replace('currentColor', 'Brown');
+					}
+					
+					switch(myObj.pm25Grade){
+					case '1':
+						state25 = '좋음';
+						pm25 = pm25.replace('currentColor', 'green');
+						break;
+					case '2':
+						state25 = '보통';
+						pm25 = pm25.replace('currentColor', 'yellow');
+						break;
+					case '3':
+						state25 = '나쁨';
+						pm25 = pm25.replace('currentColor', 'red');
+						break;
+					case '4':
+						state25 ='매우나쁨';
+						pm25 = pm25.replace('currentColor', 'Brown');
+					}
+					
+					todayInfo += ' || 미세먼지 ' + state10 + " " + pm10 + " | 초미세먼지 " + state25 + " " + pm25;
+					resultSpan.innerHTML = todayInfo;
+					$(resultSpan).slideUp(1200);
+					$(resultSpan).slideDown(1200);
+				});
 			})
 		}
+		
+		
+		
+		
 	</script>
 	
 </body>

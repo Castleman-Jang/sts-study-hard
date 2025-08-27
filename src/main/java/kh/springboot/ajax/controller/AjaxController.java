@@ -239,21 +239,21 @@ public class AjaxController {
 		}
 		return result;
 	}
-	
+	/*
 	@GetMapping("weather")
 	public String getWeather() {
 		StringBuilder sb = new StringBuilder();
 		try {
-			StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"); /*URL*/
-	        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=73a2ba0f91e7b3fddee22c34758b6dbde03fb7e0cce96e56523df148de5fe757"); /*Service Key*/
-	        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
-	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8")); /*한 페이지 결과 수*/
-	        urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
+			StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"); 
+	        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=73a2ba0f91e7b3fddee22c34758b6dbde03fb7e0cce96e56523df148de5fe757"); 
+	        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
+	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8")); 
+	        urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); 
 	        
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HHmm");
 	        String now = sdf.format(new Date());
 	        String[] dayTime = now.split(" ");
-	        urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(dayTime[0], "UTF-8")); /*‘21년 6월 28일발표*/
+	        urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(dayTime[0], "UTF-8")); 
 	        
 	        int[] baseTime = {200, 500, 800, 1100, 1400, 1700, 2000, 2300};
 	        int index = -1;
@@ -273,9 +273,9 @@ public class AjaxController {
 	        	dayTime[1] = "2300";
 	        }
 	        
-	        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(dayTime[1], "UTF-8")); /*05시 발표*/
-	        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode("55", "UTF-8")); /*예보지점의 X 좌표값*/
-	        urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode("127", "UTF-8")); /*예보지점의 Y 좌표값*/
+	        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(dayTime[1], "UTF-8")); 
+	        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode("55", "UTF-8")); 
+	        urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode("127", "UTF-8")); 
 	        
 //	        URL url = new URL(urlBuilder.toString());
 	        URL url = (new URI(urlBuilder.toString())).toURL();
@@ -303,5 +303,5 @@ public class AjaxController {
 		
 		return sb.toString();
 	}
-	
+	*/
 }
