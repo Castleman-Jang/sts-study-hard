@@ -10,7 +10,7 @@ public class AdminController {
 	
 	@GetMapping("home")
 	public String moveToMainAdmin() {
-		return "admin";
+		return "redirect:http://localhost:5173";
 	}
 
 }
