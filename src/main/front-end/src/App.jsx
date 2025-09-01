@@ -1,5 +1,10 @@
+import { BrowserRouter, Route, Routes} from "react-router-dom"
 import { AdminProvider } from "./context/AdminContext"
 import AdminMain from "./layouts/AdminMain"
+import Dashboard from "./pages/Dashboard";
+import MembersManagement from "./pages/MembersManagement";
+import BoardManagement from "./pages/BoardManagement";
+import AttmsManagement from "./pages/AttmsManagement";
 
 function App() {
   // 컴포넌트가 렌더링이 된 이후 실행되는 코드 작성할 때 사용
@@ -39,9 +44,18 @@ function App() {
 
   return (
     <AdminProvider>
-      <AdminMain/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<AdminMain/>}>
+            <Route index element={<Dashboard/>}></Route>{/* Nested Routes : Route 안에 또 다른 Route가 존재하는 구조*/}
+            <Route path="members" element={<MembersManagement/>}/>
+            <Route path="boards" element={<BoardManagement/>}/>
+            <Route path="attms" element={<AttmsManagement/>}/>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </AdminProvider>
-  )
+  );
 }
 
 export default App
