@@ -13,9 +13,15 @@ public class CheckAdminInterceptor implements HandlerInterceptor{
 			throws Exception {
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		if(loginUser == null || loginUser.getIsAdmin().equals("N")) {
-			response.setContentType("text/html; charset=UTF-8");
-			response.getWriter().write("<script>alert('접근권한이 없습니다.'); location.href='/home/';</script>");
-			return false;
+			System.out.println(request.getHeader("fetch")); // 저~기 리액트 App.jsx에서 보낸거 확인해보는거임
+			if("true".equals(request.getHeader("fetch"))) {
+				response.setContentType("application/json; charset=UTF-8");
+				response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403코드라는데 뭔지 모르겠음 검색ㄱㄱ
+			}else {
+				response.setContentType("text/html; charset=UTF-8");
+				response.getWriter().write("<script>alert('접근권한이 없습니다.'); location.href='/home/';</script>");
+			}
+				return false;
 		}
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}

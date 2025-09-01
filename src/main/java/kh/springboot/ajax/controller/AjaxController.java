@@ -1,13 +1,7 @@
 package kh.springboot.ajax.controller;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import kh.springboot.board.model.service.BoardService;
 import kh.springboot.board.model.vo.Board;
 import kh.springboot.board.model.vo.Reply;
@@ -45,7 +40,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"/member", "/board"})
+@RequestMapping({"/member", "/board", "/admin"})
 @SessionAttributes("loginUser")
 public class AjaxController {
 	/*
@@ -304,4 +299,9 @@ public class AjaxController {
 		return sb.toString();
 	}
 	*/
+	
+	@GetMapping("users")
+	public Member getAdmin(HttpSession session) {
+		return (Member)session.getAttribute("loginUser");
+	}
 }

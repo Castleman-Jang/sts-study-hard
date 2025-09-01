@@ -6,9 +6,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/react':{
-        target: 'http://localhost:8080',
+      '/react':{ ///react가 들어오면
+        target: 'http://localhost:8080', //~8080으로 받겠다
         changeOrigin: true,
+        rewrite: path => path.replace(/^\/react/,'')
       }
     }
   }
