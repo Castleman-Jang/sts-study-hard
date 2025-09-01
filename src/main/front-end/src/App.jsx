@@ -1,3 +1,4 @@
+import { AdminProvider } from "./context/AdminContext"
 import AdminMain from "./layouts/AdminMain"
 
 function App() {
@@ -33,7 +34,14 @@ function App() {
               setData(data +1);
             }, [data]); // 계속 바뀌니까 무한 실행 (=무한루프)
   */
-  return <AdminMain/>;
+
+
+
+  return (
+    <AdminProvider>
+      <AdminMain/>
+    </AdminProvider>
+  )
 }
 
 export default App

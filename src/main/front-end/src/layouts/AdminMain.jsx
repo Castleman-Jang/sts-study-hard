@@ -1,8 +1,14 @@
+import { useContext } from "react"
 import Adminbar from "../components/Adminbar"
 import AdminSymbol from "../components/AdminSymbol"
 import Navbar from "../components/Navbar"
+import { AdminContext } from "../context/AdminContext"
 
 const AdminMain = () => {
+
+    const {admin} = useContext(AdminContext);
+    console.log(admin, 123);
+
     return(
         <div>
             <Navbar/>

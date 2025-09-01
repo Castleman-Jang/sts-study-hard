@@ -6,7 +6,7 @@ const Navbar = () => {
     return(
         <nav className="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
             <div className="container-fluid">
-                <a className="navbar-brand" href="/home">SpringBoot project</a>
+                <a className="navbar-brand" href="http://localhost:8080/home">SpringBoot project</a>
                 <div className="collapse navbar-collapse" id="navbarsExample02">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item"><a className="nav-link active" aria-current="page" href="http://localhost:8080/home">Home</a></li>
