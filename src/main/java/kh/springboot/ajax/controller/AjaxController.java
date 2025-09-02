@@ -1,11 +1,14 @@
 package kh.springboot.ajax.controller;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -303,5 +306,42 @@ public class AjaxController {
 	@GetMapping("users")
 	public Member getAdmin(HttpSession session) {
 		return (Member)session.getAttribute("loginUser");
+	}
+	
+	@GetMapping("logs")
+	public TreeMap<String, Integer> getLogs() {
+		File f = new File("D:/logs/member/");
+		File[] files = f.listFiles();
+//		System.out.println(Arrays.toString(files));
+		
+		TreeMap<String, Integer> dateCount = new TreeMap<String, Integer>();
+		BufferedReader br = null;
+		try {
+			for(File file : files) {
+				br = new BufferedReader(new FileReader(file));
+				String data;
+				while((data = br.readLine()) != null) {
+//					System.out.println(data);
+					String date = data.split(" ")[0];
+					if(!dateCount.containsKey(date)) {
+						dateCount.put(date, 1);
+					}else {
+						dateCount.put(date, dateCount.get(date)+1);
+					}
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				br.close();
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return dateCount; // HttpMessageConverter
+		// 기본 문자 : StringHttpMessageConverter
+		// 객체 : MappingJackson2HttpMessageConverter
 	}
 }
