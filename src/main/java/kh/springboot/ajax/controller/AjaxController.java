@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 
 import org.json.JSONArray;
@@ -343,5 +344,18 @@ public class AjaxController {
 		return dateCount; // HttpMessageConverter
 		// 기본 문자 : StringHttpMessageConverter
 		// 객체 : MappingJackson2HttpMessageConverter
+	}
+	
+	@GetMapping("newest")
+	public ArrayList<Board> selectRecentBoards(){
+		return bService.selectRecentBoards();
+	}
+	
+	
+	//admin메뉴에 member목록 보기 기능 ( 로그인한 나 빼고) ArrayList로 받아와도 됨
+	@GetMapping("members")
+	public List<Member> searchAllMembers(Model model) {
+		String id = ((Member)model.getAttribute("loginUser")).getId();
+		return mService.searchAllMembers(id);
 	}
 }

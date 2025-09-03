@@ -153,7 +153,29 @@
 		set attm_status = 'N'
 		where ref_board_Id = #{bId}
 	</update> -->
-
+	
+	<select id="selectRecentBoards">
+		<![CDATA[
+		select board_id, board_title, nickName, board_create_date, board_count, board_type
+			from(
+				select *
+			from board 
+				join member on(id = board_writer)
+			where board_status = 'Y' and board_type = 1
+			order by board_id desc)
+		where rownum <= 5
+		union
+		select board_id, board_title, nickName, board_create_date, board_count, board_type
+			from(
+				select *
+			from board 
+				join member on(id = board_writer)
+			where board_status = 'Y' and board_type = 2
+			order by board_id desc)
+		where rownum <= 5
+		order by board_id desc
+		]]>
+	</select>
 
 	
 </mapper>

@@ -2,6 +2,7 @@ package kh.springboot.member.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -92,6 +93,11 @@ public class MemberService {
 	public int updateProfile(Member m) {
 		// TODO Auto-generated method stub
 		return mapper.updateProfile(m);
+	}
+
+	public List<Member> searchAllMembers(String id) {
+		// TODO Auto-generated method stub
+		return mapper.searchAllMembers(id);
 	}
 
 

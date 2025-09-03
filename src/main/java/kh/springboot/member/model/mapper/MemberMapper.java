@@ -2,6 +2,7 @@ package kh.springboot.member.model.mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -48,6 +49,8 @@ public interface MemberMapper {
 	int deleteTodo(int todoNum);
 
 	int updateProfile(Member m);
+
+	List<Member> searchAllMembers(String id);
 
 	
 

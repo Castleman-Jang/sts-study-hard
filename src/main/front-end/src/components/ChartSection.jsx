@@ -102,6 +102,16 @@ const ChartSection = ({ title, type }) => {
                     borderWidth: 4,
                     pointBackgroundColor: '#007bff'
                 }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        boxPadding: 3
+                    }
+                }
             }
         })
     }

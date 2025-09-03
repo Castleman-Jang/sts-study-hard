@@ -141,5 +141,11 @@
 		set profile = #{profile}
 		where id = #{id}
 	</update>
+	<select id="searchAllMembers" resultType="member">
+		select *
+		from member 
+		where id != #{id}
+		
+	</select>
 	
 </mapper>

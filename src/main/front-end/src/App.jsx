@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import MembersManagement from "./pages/MembersManagement";
 import BoardManagement from "./pages/BoardManagement";
 import AttmsManagement from "./pages/AttmsManagement";
+import ProtectedRoute from "./router/ProtectedRoute";
 
 function App() {
   // 컴포넌트가 렌더링이 된 이후 실행되는 코드 작성할 때 사용
@@ -48,7 +49,11 @@ function App() {
         <Routes>
           <Route path="/" element={<AdminMain/>}>
             <Route index element={<Dashboard/>}></Route>{/* Nested Routes : Route 안에 또 다른 Route가 존재하는 구조*/}
-            <Route path="members" element={<MembersManagement/>}/>
+            <Route path="members" element={
+              <ProtectedRoute level="1">
+              <MembersManagement/>
+              </ProtectedRoute>
+              }/>
             <Route path="boards" element={<BoardManagement/>}/>
             <Route path="attms" element={<AttmsManagement/>}/>
           </Route>
