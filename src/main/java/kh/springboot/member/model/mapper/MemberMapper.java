@@ -52,6 +52,8 @@ public interface MemberMapper {
 
 	List<Member> searchAllMembers(String id);
 
+	int updateMemberItem(HashMap<String, String> map);
+
 	
 
 	

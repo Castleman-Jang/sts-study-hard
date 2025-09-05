@@ -148,4 +148,10 @@
 		
 	</select>
 	
+	<update id="updateMemberItem">
+		update member
+		set ${col} = #{val}
+		where id = #{id}
+	</update>
+	
 </mapper>

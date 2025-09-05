@@ -19,8 +19,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -358,4 +360,19 @@ public class AjaxController {
 		String id = ((Member)model.getAttribute("loginUser")).getId();
 		return mService.searchAllMembers(id);
 	}
+	
+	@PutMapping("members")
+	public int updateMember(@RequestBody HashMap<String, String> map) { // MemberManagement에서 body를 통해 데이터를 보내고 있어서 리퀘스트 파람이 아니라 리퀘스트바디임
+//		System.out.println(map);
+		if(map.get("col").equals("nickName")) {
+			int count = mService.checkValue(map);
+			if(count != 0) {
+				return -1;
+			}
+		} else if(map.get("col").equals("memberStatus") || map.get("col").equals("isAdmin")) {
+			map.put("col", map.get("col").equals("memberStatus") ? "member_status" : "isAdmin");
+		}
+		return mService.updateMemberItem(map);
+	}
+	
 }

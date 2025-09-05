@@ -100,6 +100,11 @@ public class MemberService {
 		return mapper.searchAllMembers(id);
 	}
 
+	public int updateMemberItem(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return mapper.updateMemberItem(map);
+	}
+
 
 	
 }
