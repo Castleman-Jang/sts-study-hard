@@ -38,7 +38,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import kh.springboot.board.model.service.BoardService;
 import kh.springboot.board.model.vo.Board;
+import kh.springboot.board.model.vo.PageInfo;
 import kh.springboot.board.model.vo.Reply;
+import kh.springboot.common.Pagination;
 import kh.springboot.member.model.service.MemberService;
 import kh.springboot.member.model.vo.Member;
 import kh.springboot.member.model.vo.TodoList;
@@ -373,6 +375,24 @@ public class AjaxController {
 			map.put("col", map.get("col").equals("memberStatus") ? "member_status" : "isAdmin");
 		}
 		return mService.updateMemberItem(map);
+	}
+	
+	@GetMapping("boards")
+	public HashMap<String,Object> selectBoards(@RequestParam(value="page", defaultValue="1") int currentPage,@RequestParam HashMap<String, String> map) {
+		map.put("i", "-1");
+		int listCount = bService.getListCount(map);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Board> list = bService.selectBoardList(pi, map);
+		
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		data.put("pi", pi);
+		data.put("list", list);
+		return data;
+	}
+	
+	@PutMapping("status")
+	public int updateBoardStatus(@RequestBody HashMap<String, Object> map) {
+		return bService.updateBoardStatus(map);
 	}
 	
 }

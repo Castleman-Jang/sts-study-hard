@@ -96,6 +96,11 @@ public class BoardService {
 		return mapper.selectRecentBoards();
 	}
 
+	public int updateBoardStatus(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return mapper.updateBoardStatus(map);
+	}
+
 //	public int statusNAttm(int bId) {
 //		return mapper.statusNAttm(bId);
 //	}

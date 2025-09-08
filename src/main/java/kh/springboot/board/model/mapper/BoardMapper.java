@@ -49,6 +49,8 @@ public interface BoardMapper {
 
 	ArrayList<Board> selectRecentBoards();
 
+	int updateBoardStatus(HashMap<String, Object> map);
+
 //	int statusNAttm(int bId);
 
 
