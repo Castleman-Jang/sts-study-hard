@@ -1,4 +1,4 @@
-import './AdminSymbol.css';
+import style from './AdminSymbol.module.css';
 
 const AdminSymbol = () => {
     return(
@@ -28,8 +28,8 @@ const AdminSymbol = () => {
                 </symbol>
 	        </svg>
 	
-	<header className="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-		<a className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="admin/home">Rosemary Park</a>
+	<header className={`${style.navbar} navbar sticky-top bg-dark flex-md-nowrap p-0 shadow`} data-bs-theme="dark">
+		<a className={`${style['navbar-brand']} navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white`} href="admin/home">Rosemary Park</a>
 	</header>
         </div>
     )

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import './MembersManagement.css'
+// import './MembersManagement.css' // 전역 css 구문 (어디에서도 적용되는 css구문이라는말 )
+import common from './PagesCommon.module.css';
+import style from './MembersManagement.module.css';
 
 const MembersManagement = () => {
 
@@ -237,13 +239,13 @@ const MembersManagement = () => {
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 className="h2">Members</h1>
                 <div>
-                    <span className="info">* 더블클릭을 하면 수정 칸으로 바뀝니다</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className={style.info}>* 더블클릭을 하면 수정 칸으로 바뀝니다</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <span className="info">* 수정 후 엔터를 누르면 수정이 완료됩니다</span>
                 </div>
             </div>
 
             <div className="bd-example">
-                <table className="table table-hover" style={{ textAlign: 'center' }}>
+                <table className={`table table-hover ${common.table}`} style={{ textAlign: 'center' }}>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -274,12 +276,12 @@ const MembersManagement = () => {
                                     <td>{renderCell(item.enrollDate, 'enrollDate', item)}</td>
                                     <td>
                                         <div
-                                            className={item.memberStatus == 'Y' ? 'select' : ''}
+                                            className={item.memberStatus == 'Y' ? common.select : ''}
                                             onClick={() => item.memberStatus == 'N' ? handleStatusToggle(item, 'memberStatus', 'Y') : null}
                                             style={{ cursor: 'pointer' }}
                                         >Y</div>
                                         <div
-                                            className={item.memberStatus == 'N' ? 'select' : ''}
+                                            className={item.memberStatus == 'N' ? common.select : ''}
                                             onClick={() => item.memberStatus == 'Y' ? handleStatusToggle(item, 'memberStatus', 'N') : null}
                                         >N</div>
                                     </td>
