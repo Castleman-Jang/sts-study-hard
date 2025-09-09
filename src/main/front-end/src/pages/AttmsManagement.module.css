@@ -1,0 +1,28 @@
+.attm-info {
+    font-size: 12px;
+}
+
+.content:hover {
+    cursor: pointer;
+    background: #eee;
+    border-radius: .75rem;
+}
+
+.thumbnail {
+    width: 4rem;
+    height: 4rem;
+}
+
+.img-border {
+    border-radius: .75rem;
+}
+
+.img-border * {
+    border-radius: .75rem;
+    border: 1px solid lightgray;
+}
+
+.contentImg {
+    width: 3rem;
+    height: 3rem;
+}
