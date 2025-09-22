@@ -221,7 +221,7 @@ const MembersManagement = () => {
             .then(res => res.json())
             .then(data => {
                 if (data == 1) {
-                    setMembers(prec => prev.map(m =>
+                    setMembers(prev => prev.map(m =>
                         m.id == member.id
                             ? { ...m, [field]: value }
                             : m
